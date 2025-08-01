@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot name="scara1">
+    <!-- Base fixa -->
+    <link name="base">
+        <inertial>
+            <origin xyz="0.0724 0.098 0.0614" rpy="0 0 0"/>
+            <mass value="0.75"/>
+            <inertia ixx="0.003612" ixy="0.0" ixz="0.0"
+                     iyy="0.002273" iyz="0.0" izz="0.003612"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="Base1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="laranja">
+                <color rgba="1 0.8 0.6 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="Base1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    
+    <!-- Primeiro Braço -->
+    <link name="braco1">
+        <inertial>
+            <origin xyz="0.0118 0.1650 0.0455" rpy="-1.38 0 0"/>
+            <mass value="0.15"/>
+            <inertia ixx="0.001411" ixy="0.0" ixz="0.0"
+                     iyy="0.000109" iyz="0.0" izz="0.001411"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.38 0 0"/>
+            <geometry>
+                <mesh filename="Braco1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="laranja">
+                <color rgba="1 0.8 0.6 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-1.38 0 0"/>
+            <geometry>
+                <mesh filename="Braco1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    
+    <!-- Junta 1 (Rotacional em Z) -->
+    <joint name="joint1" type="revolute">
+        <parent link="base"/>
+        <child  link="braco1"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis  xyz="1 0 0"/>
+        <limit lower="-0.75" upper="3.9" effort="0.5" velocity="1"/>
+    </joint>
+    
+    <!-- Segundo Braço -->
+    <link name="braco2">
+        <inertial>
+            <origin xyz="0.0724 0.1571 0.0419" rpy="-1.188 0 0"/>
+            <mass value="0.9"/>
+            <inertia ixx="0.010343" ixy="0.0" ixz="0.0"
+                    iyy="0.002734" iyz="0.0" izz="0.010343"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.188 0 0"/>
+            <geometry>
+                <mesh filename="BBraco2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="laranja">
+                <color rgba="1 0.8 0.6 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-1.188 0 0"/>
+            <geometry>
+                <mesh filename="BBraco2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    
+    <!-- Junta 2 (Rotacional em Z) -->
+    <joint name="joint2" type="revolute">
+        <parent link="braco1"/>
+        <child  link="braco2"/>
+        <origin xyz="0 0 -0.25" rpy="0 0 0"/>
+        <axis  xyz="1 0 0"/>
+        <limit lower="-2.9" upper="2.9" effort="0.5" velocity="1"/>
+    </joint>
+    
+    <!-- Prisma (Atuador Linear) -->
+    <link name="prisma">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.02"/>
+            <inertia ixx="0.000351" ixy="0.0" ixz="0.0"
+                     iyy="0.000351" iyz="0.0" izz="0.000351"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="Bprisma2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="laranja">
+                <color rgba="1 0.8 0.6 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="Bprisma2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    
+    <!-- Junta 3 (Prismática) -->
+    <joint name="joint3" type="prismatic">
+        <parent link="braco2"/>
+        <child  link="prisma"/>
+        <origin xyz="0.1 -0.004 -0.256" rpy="0 0 0"/>
+        <axis  xyz="1 0 0"/>
+        <limit lower="-0.150" upper="1.0" effort="5" velocity="1"/>
+    </joint>
+</robot>
